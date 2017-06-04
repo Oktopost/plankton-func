@@ -32,6 +32,14 @@ require('../namespace').namespace('Plankton', function (container) {
 	
 	/**
 	 * @param {Function} callback
+	 * @return {Promise}
+	 */
+	func.async.do = function (callback) {
+		return (func.async(callback))();
+	};
+	
+	/**
+	 * @param {Function} callback
 	 * @param {function(*)|undefined} errorHandler
 	 * @return {Function}
 	 */

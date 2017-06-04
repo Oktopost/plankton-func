@@ -7,7 +7,7 @@ const common = require('./common');
 
 
 suite('func module', function() {
-
+	
 	suite('func', function() {
 		test('subject is function', function() {
 			let f = function() {}; 
@@ -44,6 +44,30 @@ suite('func module', function() {
 			
 			assert.equal(num ,1);
 		});
+		
+		
+		suite('func.async.do', function() {
+			test('promise returned', function() {
+				assert.instanceOf(func.async.do(function() {}), Promise);
+			});
+			
+			test('function invoked', function() {
+				var testMethod = function(resolve) 
+					{
+						var called = false;
+						func.async.do(function() { called = true; });
+						
+						setTimeout(() =>
+							{  
+								assert.equal(called, true);
+								resolve();
+							}, 
+							1);
+					};
+				
+				return new Promise(testMethod);
+			});
+		})
 	});
 	
 	suite('func.safe', function() {
