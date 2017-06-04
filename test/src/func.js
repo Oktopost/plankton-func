@@ -38,9 +38,13 @@ suite('func module', function() {
 		test('function executed async', function() {
 			var num = 1;
 			
-			func.async(function() {
-				num = 2;
-			})();
+			var testFunc = func.async(
+				function()
+				{
+					num = 2;
+				});
+			
+			testFunc();
 			
 			assert.equal(num ,1);
 		});
@@ -57,7 +61,8 @@ suite('func module', function() {
 						var called = false;
 						func.async.do(function() { called = true; });
 						
-						setTimeout(() =>
+						setTimeout(
+							() =>
 							{  
 								assert.equal(called, true);
 								resolve();
@@ -74,9 +79,11 @@ suite('func module', function() {
 		test('valid function', function() {
 			var called = false;
 			
-			var f = func.safe(function() {
-				called = true;
-			});
+			var f = func.safe(
+				function()
+				{
+					called = true;
+				});
 			
 			f();
 			assert.isTrue(called);
@@ -87,7 +94,8 @@ suite('func module', function() {
 			
 			var f = func.safe(
 				function() { called = true; },
-				function() { assert.fail();	});
+				function() { assert.fail();	}
+			);
 			
 			f();
 			assert.isTrue(called);
@@ -114,16 +122,14 @@ suite('func module', function() {
 		test('valid function', function() {
 			var called = false;
 			
-			var f = func.silent(function() {
-				called = true;
-			});
+			var f = func.silent(function() { called = true; });
 			
 			f();
 			assert.isTrue(called);
 		});
 		
 		test('valid silent error ignored', function() {
-			var f = func.silent(function() {  throw ignored; });
+			var f = func.silent(function() { throw ignored; });
 			
 			f();
 		});
@@ -161,28 +167,27 @@ suite('func module', function() {
 	
 	suite('func.postponed', function() {
 		test('promise returned', function() {
-			var f = func.postponed(function() {
-				return 5;
-			}, 0);
+			var f = func.postponed(function() { return 5; }, 0);
 			
 			assert.instanceOf(f(), Promise);
 		});
 		
 		test('function called', function() {
 			var called = false;
-			var f = func.postponed(function() {
-				called = true;
-			}, 0);
+			var f = func.postponed(function() { called = true; }, 0);
 			
 			return f().then(() => { assert.isTrue(called); });
 		});
 		
 		test('arguments passed', function() {
 			var called = false;
-			var f = func.postponed(function(a, b) {
-				 assert.equal(a, 1);
-				 assert.equal(b, '2');
-			}, 0);
+			var f = func.postponed(
+				function(a, b)
+				{
+					assert.equal(a, 1);
+					assert.equal(b, '2');
+				},
+				0);
 			
 			return f(1, '2');
 		});
@@ -191,13 +196,18 @@ suite('func module', function() {
 			var delay = 10;
 			var called = false;
 			var start = (new Date()).getTime();
-			var f = func.postponed(function() {
-				 return called = (new Date()).getTime();
-			}, delay);
+			var f = func.postponed(
+				function()
+				{
+					return called = (new Date()).getTime();
+				},
+				delay);
 			
-			return f().then((called) => {
-				assert.isTrue(start + delay <= called);
-			});
+			return f().then(
+				(called) => 
+				{
+					assert.isTrue(start + delay <= called);
+				});
 		});
 	});
 });
