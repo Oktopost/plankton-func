@@ -1,0 +1,9 @@
+{
+	"map":
+	{
+		"file":
+		{
+			"Plankton.func": "./src/Plankton/func"
+		}
+	}
+}

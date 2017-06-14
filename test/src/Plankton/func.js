@@ -1,7 +1,4 @@
-'use strict';
-
-
-const func = require('../../index').func;
+const func = require('../../../index').func;
 const assert = require('chai').assert;
 const common = require('./common');
 
