@@ -7,7 +7,9 @@ namespace('Plankton', function (root)
 	
 	
 	/**
-	 * @name Plankton.func
+	 * @class Plankton.func
+	 * @alias func
+	 * 
 	 * @param {*} subject
 	 * @return {function}
 	 */
