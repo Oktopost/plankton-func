@@ -3,23 +3,72 @@ const assert = require('chai').assert;
 const common = require('./common');
 
 
-suite('func module', function() {
-	
-	suite('func', function() {
-		test('subject is function', function() {
+suite('func module', function()
+{
+	suite('func', function()
+	{
+		test('subject is function', function()
+		{
 			let f = function() {}; 
 			
 			assert.equal(func(f), f);
 		});
 		
-		test('subject is undefined', function() {
+		test('subject is undefined', function()
+		{
 			assert.instanceOf(func(), Function);
 			assert.equal((func())(), undefined);
 		});
 		
-		test('subject is not a function', function() {
+		test('subject is not a function', function()
+		{
 			assert.instanceOf(func(0), Function);
 			assert.equal(func('asbasd')(), 'asbasd');
+		});
+	});
+	
+	suite('func.returns', () =>  
+	{
+		function assertFuncReturns(name, expectedValue)
+		{
+			var argsPassed = false;
+			var subject = func.returns[name](function(...a) { argsPassed = a; });
+			
+			assert.equal(subject(1, 'a', false), expectedValue);
+			assert.deepEqual(argsPassed, [1, 'a', false]);
+		}
+		
+		
+		test('Set value returned', () => 
+		{
+			var subject = func.returns(1, function() {});
+			assert.equal(subject(), 1);
+		});
+		
+		test('Original function invoked', () => 
+		{
+			var isCalled = false;
+			var subject = func.returns(1, function() { isCalled = true; });
+			
+			subject();
+			
+			assert.equal(isCalled, true);
+		});
+		
+		test('Arguments passed', () => 
+		{
+			var argsPassed = false;
+			var subject = func.returns(1, function(...a) { argsPassed = a; });
+			
+			subject(1, 'a', false);
+			
+			assert.deepEqual(argsPassed, [1, 'a', false]);
+		});
+		
+		test ('false, true variations', () => 
+		{
+			assertFuncReturns('true', true);
+			assertFuncReturns('false', false);
 		});
 	});
 	

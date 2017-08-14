@@ -127,6 +127,35 @@ namespace('Plankton', function (root)
 		};
 	};
 	
+	/**
+	 * @param {*} value
+	 * @param {function} callback
+	 */
+	func.returns = function (value, callback)
+	{
+		return function ()
+		{
+			callback.apply(null, arguments);
+			return value;
+		}
+	};
+	
+	/**
+	 * @param {function} callback
+	 */
+	func.returns.true = function (callback)
+	{
+		return func.returns(true, callback);
+	};
+	
+	/**
+	 * @param {function} callback
+	 */
+	func.returns.false = function (callback)
+	{
+		return func.returns(false, callback);
+	};
+	
 	
 	this.func = func;
 });
